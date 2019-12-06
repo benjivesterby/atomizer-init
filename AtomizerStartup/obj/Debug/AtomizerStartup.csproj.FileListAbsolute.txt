@@ -1,0 +1,7 @@
+c:\users\itdmnm\documents\visual studio 2015\Projects\AtomizerStartup\AtomizerStartup\bin\Debug\AtomizerStartup.exe.config
+c:\users\itdmnm\documents\visual studio 2015\Projects\AtomizerStartup\AtomizerStartup\obj\Debug\AtomizerStartup.csprojResolveAssemblyReference.cache
+C:\Users\itdmnm\Local Development\Visual Studio 2015\Projects\AtomizerStartup\AtomizerStartup\bin\Debug\AtomizerStartup.exe.config
+C:\Users\itdmnm\Local Development\Visual Studio 2015\Projects\AtomizerStartup\AtomizerStartup\bin\Debug\AtomizerStartup.exe
+C:\Users\itdmnm\Local Development\Visual Studio 2015\Projects\AtomizerStartup\AtomizerStartup\bin\Debug\AtomizerStartup.pdb
+C:\Users\itdmnm\Local Development\Visual Studio 2015\Projects\AtomizerStartup\AtomizerStartup\obj\Debug\AtomizerStartup.exe
+C:\Users\itdmnm\Local Development\Visual Studio 2015\Projects\AtomizerStartup\AtomizerStartup\obj\Debug\AtomizerStartup.pdb
