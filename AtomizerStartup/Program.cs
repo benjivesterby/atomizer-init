@@ -29,9 +29,10 @@ namespace AtomizerStartup
         static async Task MainAsync()
         {
 
-
-
-            //Make Sure Docker Desktop is running
+            /* **************************************************************************************
+             * Make Sure Docker Desktop is running
+             * (Requirement 4.3.1)
+             */
             Process[] processes = Process.GetProcessesByName(_DockerProcess);
 
             while (processes.Length == 0)
@@ -43,7 +44,10 @@ namespace AtomizerStartup
 
             Console.WriteLine("[Docker] Desktop Started");
 
-            //Make sure Docker Desktop is responding (If it was just started it will take a minute to respond)
+            /* 
+             * While Docker Desktop is not responsive, show a spinner
+             * (Requirement 4.3.2)
+             */
             if (!IsDockerResponsive())
             {
                 ConsoleSpiner spin = new ConsoleSpiner();
@@ -55,11 +59,18 @@ namespace AtomizerStartup
                 Console.WriteLine("\n[Docker] Desktop Responsive");
             }
 
-            //Run Docker Containers
+            /* 
+             * Run Docker Containers
+             * execute (Requirement 4.3.3)
+             */
             await RunContainers();
         }
 
-        //Test Docker for responsiveness ------------------------------------------------------------------------------------------------
+        /* **************************************************************************************
+         * Make sure Docker Desktop is responding
+         * (If it was just started it will take a minute to respond)
+         * (Requirement 4.3.2.1)
+         */
         public static bool IsDockerResponsive()
         {
             try
@@ -86,7 +97,10 @@ namespace AtomizerStartup
             }
         }
 
-        //Run Docker Containers ------------------------------------------------------------------------------------------------
+        /* **************************************************************************************
+         * Run Docker Containers
+         * (Requirement 4.3.3)
+         */
         public static async Task RunContainers()
         {
             String cmdCreateNetwork = "docker network create atomizer_nw";
@@ -98,9 +112,11 @@ namespace AtomizerStartup
             int exitCode;
 
 
-            // BEGIN BRIDGE -------------------------------------------------------------------------------------------------
 
-            //Create Docker Bridge Netwwork
+            /* 
+             * Create Docker Bridge Netwwork
+             * (Requirement 4.3.3.1)
+             */
             Console.WriteLine("[Docker] Create Atomizer Bridge Network");
             do
             {
@@ -108,12 +124,12 @@ namespace AtomizerStartup
             } while (exitCode != 0);
             Console.WriteLine("[Docker] Atomizer Bridge Network Created");
 
-            // END BRIDGE -------------------------------------------------------------------------------------------------
 
 
-            // BEGIN RABBIT -------------------------------------------------------------------------------------------------
-
-            //Run RabbitMQ Docker Container
+            /* 
+             * Run RabbitMQ Docker Container
+             * (Requirement 4.3.3.2)
+             */
             Console.WriteLine("[RabbitMQ] Starting Container");
             do
             {
@@ -123,10 +139,10 @@ namespace AtomizerStartup
 
 
 
-            //If RabbitMQ is not responsive, the Atomizer and the UI will fail to load
-            //because the Queue cannt be created
-
-            
+            /* 
+             * Verify that RabbitMQ is Responsive
+             * (Requirement 4.3.3.3)
+             */
             Console.Write("[RabbitMQ] Waiting for Response....");
             System.Net.HttpStatusCode rabbitStatus = System.Net.HttpStatusCode.NotFound;
             do
@@ -151,10 +167,11 @@ namespace AtomizerStartup
 
             Console.WriteLine("\n[RabbitMQ] Responsive");
 
-            // END RABBIT -------------------------------------------------------------------------------------------------
 
-            // BEGIN ATOMIZER -------------------------------------------------------------------------------------------------
-
+            /* 
+             * Run three instances of Atomizer
+             * (Requirement 4.3.3.4)
+             */
             int maxInstances = 3;
             int instanceCount = 0;
 
@@ -229,13 +246,10 @@ namespace AtomizerStartup
             Console.WriteLine("[Atomizer] {0} Containers Started", instanceCount);
 
 
-
-            // END ATOMIZER -------------------------------------------------------------------------------------------------
-
-            // BEGIN ATOMIZER UI -------------------------------------------------------------------------------------------------
-
-
-            //Run RabbitMQ Docker Container
+            /* 
+             * Run Atomizer UI Container
+             * (Requirement 4.3.3.5)
+             */
             Console.WriteLine("[Atomizer UI] Starting Container");
             do
             {
@@ -244,6 +258,11 @@ namespace AtomizerStartup
             Console.WriteLine("[Atomizer UI] Container Started");
 
 
+
+            /* 
+             * Run Atomizer UI Container
+             * (Requirement 4.3.3.6)
+             */
             Console.Write("[Atomizer UI] Waiting for Response....");
             System.Net.HttpStatusCode uiStatus = System.Net.HttpStatusCode.NotFound;
             do
@@ -270,16 +289,17 @@ namespace AtomizerStartup
             Console.WriteLine("[Atomizer UI] Opening browser to http://localhost:3000");
 
 
-            //Open browser to Atomizer UI homepage
+            /* 
+             * Open browser to Atomizer UI homepage
+             * (Requirement 4.3.3.7)
+             */
             ExecuteCommandSync(cmdAtomizerURL, false, null);
 
 
-            // END ATOMIZER UI -------------------------------------------------------------------------------------------------
-
-
-
-
-            //Acknowledge End of Startup
+            /* 
+             * Acknowledge End of Startup
+             * (Requirement 4.3.3.8)
+             */
             Console.WriteLine("Atomizer Environment has been started.  Please hit enter to exit.");
             Console.ReadLine();
 
